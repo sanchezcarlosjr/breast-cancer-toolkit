@@ -18,7 +18,7 @@ breast-cancer-toolkit
 
 
 Installation from pypi
-=================
+======================
 
 .. code-block:: bash
 
@@ -30,7 +30,7 @@ CLI
 
 
 Start web server
-++++++++
+++++++++++++++++
 
 .. code-block:: bash
 
