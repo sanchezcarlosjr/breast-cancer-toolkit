@@ -1,16 +1,20 @@
 import gradio as gr
+from breast_cancer_toolkit.pipeline import pipeline
 
-def execute_pipeline(img):
-    return [img.convert('L'), {"birads": "2"}]
+def execute_pipeline(predict):
+    def fn(file):
+        image = predict(file.name)
+        return [image, {"birads": ""}]
+    return fn
 
 def launch_server():
     gradio_interface = gr.Interface(
-      fn = execute_pipeline,
+      fn = execute_pipeline(pipeline()),
       title = "UABC Breast Cancer Toolkit",
       description="""
-        # UABC Breat Cancer Toolkit
+        Analyze mammography
       """,
-      inputs = gr.Image(type="pil"),
+      inputs = gr.File(file_types=['.png', '.jpg', '.ljpeg', '.tiff', '.tff' '.tif', '.dcm', '.npy']),
       outputs = [
          "image",
          "json"

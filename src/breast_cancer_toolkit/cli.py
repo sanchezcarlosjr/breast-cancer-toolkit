@@ -4,6 +4,7 @@ import sys
 
 from breast_cancer_toolkit import __version__
 from breast_cancer_toolkit.server import launch_server
+from breast_cancer_toolkit.pipeline import pipeline
 
 __author__ = "sanchezcarlosjr"
 __copyright__ = "sanchezcarlosjr"
@@ -19,10 +20,10 @@ _logger = logging.getLogger(__name__)
 
 
 class PipelineAction(argparse.Action):
-    def __call__(self, parser, namespace, files, option_string=None):
+    def __call__(self, parser, namespace, file, option_string=None):
         _logger.debug("Starting...")
-        for file in files:
-            print(file)
+        predict = pipeline()
+        predict(file).show()
         _logger.debug("Ending...")
 
 

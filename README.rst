@@ -36,8 +36,12 @@ Start web server
 
    bct -s
 
+Predict
+++++++++++++++++
 
-.. _pyscaffold-notes:
+.. code-block:: bash
+
+   bct -p [file_path]
 
 Note
 ====
