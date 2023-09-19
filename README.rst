@@ -17,7 +17,7 @@ breast-cancer-toolkit
     Machine learning toolkit designed to support radiologists and oncologists in breast cancer detection and analysis.
 
 
-Installation from git
+Installation from pypi
 =================
 
 .. code-block:: bash
