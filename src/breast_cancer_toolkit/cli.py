@@ -3,6 +3,7 @@ import logging
 import sys
 
 from breast_cancer_toolkit import __version__
+from breast_cancer_toolkit.server import launch_server
 
 __author__ = "sanchezcarlosjr"
 __copyright__ = "sanchezcarlosjr"
@@ -16,6 +17,20 @@ _logger = logging.getLogger(__name__)
 # API allowing them to be called directly from the terminal as a CLI
 # executable/script.
 
+
+class PipelineAction(argparse.Action):
+    def __call__(self, parser, namespace, files, option_string=None):
+        _logger.debug("Starting...")
+        for file in files:
+            print(file)
+        _logger.debug("Ending...")
+
+
+class WebServerLauncherAction(argparse.Action):
+    def __call__(self, parser, namespace, value, option_string=None):
+        _logger.debug("Starting...")
+        launch_server()
+        _logger.debug("Ending...")
 
 def parse_args(args):
     """Parse command line parameters
@@ -33,7 +48,24 @@ def parse_args(args):
         action="version",
         version=f"breast-cancer-toolkit {__version__}",
     )
-    parser.add_argument(dest="n", help="path", type=int, metavar="INT")
+    parser.add_argument(
+            "-s",
+            "--server",
+            help="launch webserver",
+            nargs='?',
+            default='7860',
+            action=WebServerLauncherAction
+    )
+    parser.add_argument(
+            "-p",
+            "--predict",
+            dest="infile",
+            help="file paths",
+            nargs="?",
+            action=PipelineAction,
+            type=argparse.FileType('r'),
+            default=sys.stdin
+    )
     parser.add_argument(
         "-v",
         "--verbose",
