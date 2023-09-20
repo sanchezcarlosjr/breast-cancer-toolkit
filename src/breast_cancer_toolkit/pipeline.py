@@ -89,7 +89,8 @@ def read(string):
 
 
 def pipeline():
-    def predict(file):
-        return 0
+    def predict(path):
+        image = read(path)
+        return image
     return predict
 

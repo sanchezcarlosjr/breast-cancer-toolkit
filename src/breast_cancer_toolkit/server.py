@@ -1,10 +1,10 @@
 import gradio as gr
-from breast_cancer_toolkit.pipeline import read
+from breast_cancer_toolkit.pipeline import pipeline
 
 def execute_pipeline(predict):
     def fn(file):
-        image = read(file.name)
-        return [image, {"birads": ""}]
+        image = predict(file.name)
+        return [image, {"birads": 0}]
     return fn
 
 def launch_server():
@@ -12,7 +12,7 @@ def launch_server():
       fn = execute_pipeline(pipeline()),
       title = "UABC Breast Cancer Toolkit",
       description="""
-        Analyze mammography
+        Analyze mammographies from different image formats.
       """,
       inputs = gr.File(file_types=['.png', '.jpg', '.ljpeg', '.tiff', '.tff' '.tif', '.dcm', '.npy']),
       outputs = [
