@@ -41,17 +41,16 @@ Visualize from local storage
 
 .. code-block:: bash
 
-   bct -lw [file_path]
+   bct -lv [file_path]
 
 
-Python lib
+Python
 ==========
 
-Notebooks
-++++++++++++++++
+Consult our `notebooks`_ to learn more. We recommend you starting with `Getting started`_.
 
-Consult our notebooks to learn more.
-
+.. _notebooks: https://github.com/sanchezcarlosjr/breast-cancer-toolkit/tree/main/notebooks 
+.. _Getting started: https://github.com/sanchezcarlosjr/breast-cancer-toolkit/blob/main/notebooks/getting-started.ipynb
 
 Note
 ====
