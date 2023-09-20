@@ -1,9 +1,9 @@
 import gradio as gr
-from breast_cancer_toolkit.pipeline import pipeline
+from breast_cancer_toolkit.pipeline import read
 
 def execute_pipeline(predict):
     def fn(file):
-        image = predict(file.name)
+        image = read(file.name)
         return [image, {"birads": ""}]
     return fn
 

@@ -36,12 +36,22 @@ Start web server
 
    bct -s
 
-Predict
-++++++++++++++++
+Visualize from local storage
+++++++++++++++++++++++++++++
 
 .. code-block:: bash
 
-   bct -p [file_path]
+   bct -lw [file_path]
+
+
+Python lib
+==========
+
+Notebooks
+++++++++++++++++
+
+Consult our notebooks to learn more.
+
 
 Note
 ====

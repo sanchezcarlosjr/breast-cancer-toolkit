@@ -3,6 +3,7 @@ from PIL import Image
 import numpy as np
 import pydicom
 import re
+import tempfile
 
 
 class ImageReader:
@@ -53,7 +54,6 @@ class Dicom(ImageReader):
 
 class ClassicImage(ImageReader):
     def read(self):
-        print(self.img_path)
         return Image.open(self.img_path)
 
 class NPYFile(ImageReader):
@@ -64,21 +64,32 @@ class LJPEG(ImageReader):
     def read(self):
         return
 
+class Url(ImageReader):
+    def read(self):
+        response = requests.get(self.img_path)
+        with tempfile.NamedTemporaryFile(delete=False) as file:
+            file.write(response.content)
+        return read(file.name)
+
 class FileExtensionError(Exception):
     pass
 
 def tokenize(string):
-    match = re.match(r'.+(\.(?P<Dicom>dcm)|(?P<ClassicImage>tiff|tff|png|jpg|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy))', string, re.IGNORECASE)
+    match = re.match(r'(.+(\.(?P<Dicom>dcm)|(?P<ClassicImage>tiff|tff|png|jpg|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy)))|(?P<Url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))', string, re.IGNORECASE)
     if not match:
         raise FileExtensionError("Pattern did not match the input string")
     for token,symbols in match.groupdict().items():
         if symbols:
             return globals()[token](string)
 
+def read(string):
+    reader = tokenize(string)
+    image = reader.read()
+    return image
+
+
 def pipeline():
     def predict(file):
-        reader = tokenize(file.name)
-        image = reader.read()
-        return image
+        return 0
     return predict
 

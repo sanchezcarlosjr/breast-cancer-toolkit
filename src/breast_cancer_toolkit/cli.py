@@ -4,7 +4,7 @@ import sys
 
 from breast_cancer_toolkit import __version__
 from breast_cancer_toolkit.server import launch_server
-from breast_cancer_toolkit.pipeline import pipeline
+from breast_cancer_toolkit.pipeline import read
 
 __author__ = "sanchezcarlosjr"
 __copyright__ = "sanchezcarlosjr"
@@ -19,11 +19,10 @@ _logger = logging.getLogger(__name__)
 # executable/script.
 
 
-class PipelineAction(argparse.Action):
+class LocalViewerAction(argparse.Action):
     def __call__(self, parser, namespace, file, option_string=None):
         _logger.debug("Starting...")
-        predict = pipeline()
-        predict(file).show()
+        read(file.name).show()
         _logger.debug("Ending...")
 
 
@@ -58,12 +57,12 @@ def parse_args(args):
             action=WebServerLauncherAction
     )
     parser.add_argument(
-            "-p",
-            "--predict",
+            "-lv",
+            "--lview",
             dest="infile",
             help="file paths",
             nargs="?",
-            action=PipelineAction,
+            action=LocalViewerAction,
             type=argparse.FileType('r'),
             default=sys.stdin
     )
