@@ -52,6 +52,14 @@ Consult our `notebooks`_ to learn more. We recommend you starting with `Getting 
 .. _notebooks: https://github.com/sanchezcarlosjr/breast-cancer-toolkit/tree/main/notebooks 
 .. _Getting started: https://github.com/sanchezcarlosjr/breast-cancer-toolkit/blob/main/notebooks/getting-started.ipynb
 
+
+DICOM Web
+==========
+
+TODO
+
+
+
 Note
 ====
 
