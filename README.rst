@@ -41,7 +41,7 @@ Visualize from local storage
 
 .. code-block:: bash
 
-   bct -lv [file_path]
+   bct -lv [file_path].(dcm|tif|tiff|jpg|png|ljpeg)
 
 
 Python

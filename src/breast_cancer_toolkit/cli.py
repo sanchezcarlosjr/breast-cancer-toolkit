@@ -22,7 +22,8 @@ _logger = logging.getLogger(__name__)
 class LocalViewerAction(argparse.Action):
     def __call__(self, parser, namespace, file, option_string=None):
         _logger.debug("Starting...")
-        read(file.name).show()
+        reader = read(file.name)
+        reader.plot()
         _logger.debug("Ending...")
 
 
