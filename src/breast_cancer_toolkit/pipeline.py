@@ -81,12 +81,13 @@ class FileExtensionError(Exception):
     pass
 
 def tokenize(string):
-    match = re.match(r'(.+(\.(?P<Dicom>dcm)|(?P<ClassicImage>png|jpg|jpeg|bmp|gif)|(?P<Tiff>tiff|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy)))|(?P<Url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))', string, re.IGNORECASE)
+    expr = r'(?:.+\.(?:(?P<Dicom>dcm)|(?P<ClassicImage>png|jpg|jpeg|bmp|gif)|(?P<Tiff>tiff|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy))|(?P<Url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)))'
+    match = re.match(expr, string, re.IGNORECASE)
     if not match:
         raise FileExtensionError("Pattern did not match the input string")
     token = match.lastgroup
     return globals()[token](string)
-
+    
 def read(string):
     reader = tokenize(string)
     return reader.read()
