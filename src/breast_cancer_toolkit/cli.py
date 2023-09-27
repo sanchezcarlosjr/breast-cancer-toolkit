@@ -22,7 +22,7 @@ _logger = logging.getLogger(__name__)
 class LocalViewerAction(argparse.Action):
     def __call__(self, parser, namespace, file, option_string=None):
         _logger.debug("Starting...")
-        reader = read(file.name)
+        reader = read(file)
         reader.plot()
         _logger.debug("Ending...")
 
@@ -64,7 +64,6 @@ def parse_args(args):
             help="file paths",
             nargs="?",
             action=LocalViewerAction,
-            type=argparse.FileType('r'),
             default=sys.stdin
     )
     parser.add_argument(
