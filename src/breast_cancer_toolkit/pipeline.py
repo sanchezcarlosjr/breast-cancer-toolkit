@@ -84,9 +84,8 @@ def tokenize(string):
     match = re.match(r'(.+(\.(?P<Dicom>dcm)|(?P<ClassicImage>png|jpg|jpeg|bmp|gif)|(?P<Tiff>tiff|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy)))|(?P<Url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))', string, re.IGNORECASE)
     if not match:
         raise FileExtensionError("Pattern did not match the input string")
-    for token,symbols in match.groupdict().items():
-        if symbols:
-            return globals()[token](string)
+    token = match.lastgroup
+    return globals()[token](string)
 
 def read(string):
     reader = tokenize(string)
