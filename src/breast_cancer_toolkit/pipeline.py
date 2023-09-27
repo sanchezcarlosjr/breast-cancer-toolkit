@@ -7,6 +7,7 @@ import re
 import tempfile
 import tensorflow_io as tfio
 import tensorflow as tf
+import requests
 import cv2
 import matplotlib.pyplot as plt
 
@@ -71,9 +72,15 @@ class LJPEG(ImageReader):
         return self
 
 class Url(ImageReader):
+    def __init__(self, img_path, extension=None):
+        super().__init__(img_path)
+        self.extension = self.find_extension() if extension == None else extension
+    def find_extension(self):
+        expr = r'(\.(?:dcm|png|jpg|jpeg|bmp|gif|tiff|tif|ljpeg|npy))'
+        return re.findall(expr, self.img_path, re.IGNORECASE)[-1]
     def read(self):
         response = requests.get(self.img_path)
-        with tempfile.NamedTemporaryFile(delete=False) as file:
+        with tempfile.NamedTemporaryFile(delete=False,suffix=self.extension) as file:
             file.write(response.content)
         return read(file.name)
 
@@ -81,7 +88,7 @@ class FileExtensionError(Exception):
     pass
 
 def tokenize(string):
-    expr = r'(?:.+\.(?:(?P<Dicom>dcm)|(?P<ClassicImage>png|jpg|jpeg|bmp|gif)|(?P<Tiff>tiff|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy))|(?P<Url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)))'
+    expr = r'(?P<Url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))|(?:.+\.(?:(?P<Dicom>dcm)|(?P<ClassicImage>png|jpg|jpeg|bmp|gif)|(?P<Tiff>tiff|tif)|(?P<LJPEG>ljpeg)|(?P<NPYFile>npy)))'
     match = re.match(expr, string, re.IGNORECASE)
     if not match:
         raise FileExtensionError("Pattern did not match the input string")
