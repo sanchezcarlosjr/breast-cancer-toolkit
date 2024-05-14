@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  ml-project:
+    build: .
+    restart: always
+    ports:
+      - "8087:7860"
+    volumes:
+      - .:/usr/src/app
