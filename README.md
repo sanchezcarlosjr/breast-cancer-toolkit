@@ -23,9 +23,9 @@ pip install breast-cancer-toolkit
 
 ## Usage as CLI
 
-### Convert the format
+### Convert the DCM files into TIFF format recursively with the same basename.
 ```bash
-parallel bct convert {} {.}.tiff ::: *.dcm
+parallel bct convert {} {.}.tiff ::: **/*.dcm
 ```
 
 
