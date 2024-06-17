@@ -1,17 +1,8 @@
 # breast-cancer-toolkit
 
-Add a short description here!
+Machine learning toolkit designed to support data scientists in breast cancer detection and analysis.
 
 
-## Note
-
-> This is the main page of your project's [Sphinx] documentation. It is
-> formatted in [Markdown]. Add additional pages by creating md-files in
-> `docs` or rst-files (formatted in [reStructuredText]) and adding links to
-> them in the `Contents` section below.
->
-> Please check [Sphinx] and [MyST] for more information
-> about how to document your project and how to configure your preferences.
 
 
 ## Contents

@@ -1,10 +1,19 @@
-import gradio as gr
-from breast_cancer_toolkit
+import uuid
 
-theme = gr.themes.Base(font=["DM Sans", 'ui-sans-serif', 'system-ui', '-apple-system'], ).set(
-    body_background_fill_dark='transparent', border_color_primary_dark='transparent',
-    button_primary_background_fill_dark='rgb(31, 41, 55)', button_primary_text_color_dark='rgb(156, 163, 175)',
-    button_primary_border_color_dark='rgb(31, 41, 55)')
+import gradio as gr
+import PIL
+
+import breast_cancer_toolkit as bct
+import breast_cancer_toolkit.io.assets as assets
+import breast_cancer_toolkit.rembg as rembg
+
+theme = gr.themes.Base(
+    font=["DM Sans", "ui-sans-serif", "system-ui", "-apple-system"],
+).set(
+    button_primary_background_fill_dark="rgb(31, 41, 55)",
+    button_primary_text_color_dark="rgb(156, 163, 175)",
+    button_primary_border_color_dark="rgb(31, 41, 55)",
+)
 
 css = """
 footer{display:none !important}
@@ -17,15 +26,23 @@ footer{display:none !important}
 """
 
 
-def predict(x):
-    return x
+def predict(image: PIL.Image):
+    if image is None:
+        return None
+    output = str(assets.external(str(uuid.uuid4()) + ".png"))
+    rembg.model(image)[0].save(output)
+    return output
 
 
-with gr.Blocks(theme=theme, title="breast_cancer_toolkit", css=css, analytics_enabled=False) as demo:
-    gr.Markdown("# Greetings from breast_cancer_toolkit!")
-    inp = gr.Textbox(placeholder="What is your name?")
-    out = gr.Textbox()
+with gr.Blocks(
+    theme=theme, title=bct.dist_name, css=css, analytics_enabled=False
+) as demo:
+    gr.Markdown("# breast-cancer-toolkit from MexicanDICOM project.")
+    inp = gr.Image(format="png", type="pil")
+    out = gr.Image()
 
     inp.change(fn=predict, inputs=inp, outputs=out)
 
     demo.queue(default_concurrency_limit=40)
+
+    demo.launch()
